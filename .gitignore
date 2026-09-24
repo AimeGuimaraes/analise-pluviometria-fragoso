@@ -53,14 +53,17 @@ data/bronze/*
 data/silver/*
 data/gold/*
 
-# Manter a estrutura de pastas no Git
+# Pastas de dados
+data/bronze/*
+data/silver/*
+data/gold/*
 !data/bronze/.gitkeep
 !data/silver/.gitkeep
 !data/gold/.gitkeep
 
-# Ficheiros do sistema e do RStudio
+# VS Code e R
+.vscode/
 .Rhistory
 .RData
-.Rproj.user/
 *.parquet
 *.zip
