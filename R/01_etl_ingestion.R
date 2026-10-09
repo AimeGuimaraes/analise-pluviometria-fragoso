@@ -53,6 +53,13 @@ df_completo[, data_padronizada := parse_date_time(
 
 df_silver <- df_completo[!is.na(data_padronizada)][order(data_padronizada)]
 
+# Remove medições repetidas (mesma estação, data/hora e valor), que vêm de
+# arquivos sobrepostos na Bronze e somariam chuva em dobro na agregação diária.
+# Usa a data já convertida, pois a datahora vem em formatos diferentes entre arquivos
+n_antes <- nrow(df_silver)
+df_silver <- unique(df_silver, by = c("codEstacao", "data_padronizada", "valorMedida"))
+message(paste("Linhas duplicadas removidas:", n_antes - nrow(df_silver)))
+
 # 6. Gravação na camada Silver (medições brutas padronizadas)
 # Gravação em Apache Parquet (rápido e comprimido)
 write_parquet(df_silver, file.path(caminho_silver, "chuvas_silver.parquet"))
